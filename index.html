@@ -252,7 +252,7 @@
     <div class="leg"><span class="swatch c"></span>格安 ¥6,500以下</div>
     <div class="leg"><span class="swatch e"></span>¥6,500 超</div>
     <div class="leg"><span class="swatch n"></span>データなし</div>
-    <span class="leg-note">クリック → 最安サイトで直接予約</span>
+    <span class="leg-note">クリック → Agodaで予約（参考価格は楽天トラベル）</span>
   </div>
 
   <div id="notice" class="notice"></div>
@@ -264,6 +264,7 @@
 <script>
 /* ── Config ─────────────────────────────────────────────── */
 const CHEAP_MAX  = 6500;
+const AGODA_BASE = 'https://www.agoda.com/ja-jp/hotel-r9-the-yard-inabe-h31033908/hotel/yokkaichi-jp.html';
 const HOTEL_ID   = '27992002';
 const HOTEL_SLUG =
   '%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C'
@@ -282,11 +283,11 @@ function todayStr(){
   return ds(t.getFullYear(),t.getMonth(),t.getDate());
 }
 
-function trivagoUrl(dateStr){
+function agodaUrl(dateStr){
   const d=new Date(dateStr+'T00:00:00');
   const nx=new Date(d); nx.setDate(nx.getDate()+1);
-  const fmt=d=>`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
-  return `https://www.trivago.jp/ja/lm/${HOTEL_SLUG}?search=100-${HOTEL_ID};dr-${fmt(d)}-${fmt(nx)}`;
+  const fmt=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  return `${AGODA_BASE}?checkIn=${fmt(d)}&checkOut=${fmt(nx)}&adults=1`;
 }
 
 function fmtJP(str){
@@ -375,10 +376,10 @@ function renderCal(prices){
       const todayCls = isToday?' is-today':'';
       const pastCls  = past?' past':'';
 
-      // クリック先: cheapestUrl があればそこへ、なければ Trivago
-      const dest = (!past&&url) ? url : trivagoUrl(dateS);
+      // クリック先: 常にAgodaのその日の予約ページ
+      const dest = agodaUrl(dateS);
       const onClick = !past
-        ? ` onclick="window.open('${dest}','_blank')" title="${fmtJP(dateS)} → ${source||'楽天トラベル'}で予約"`
+        ? ` onclick="window.open('${dest}','_blank')" title="${fmtJP(dateS)} → Agodaで予約"`
         : '';
 
       const priceHtml = price!=null
