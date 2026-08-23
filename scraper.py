@@ -65,7 +65,15 @@ def fetch_month(year: int, month: int) -> dict:
         print(f"  HTTP {resp.status_code}")
         return {}
 
-    return parse_prices(resp.text, year, month)
+    # デバッグ: HTMLの一部を出力して構造を確認
+    html = resp.text
+    idx = html.find("thisMonth")
+    if idx >= 0:
+        print(f"  [debug] thisMonth found at {idx}: {repr(html[idx:idx+200])}")
+    else:
+        print(f"  [debug] thisMonth NOT found. First 300 chars: {repr(html[:300])}")
+
+    return parse_prices(html, year, month)
 
 
 def parse_prices(html: str, year: int, month: int) -> dict:
