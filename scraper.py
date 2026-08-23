@@ -11,33 +11,13 @@ import requests
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-APP_ID  = os.environ.get("RAKUTEN_APP_ID", "")
-DAYS    = 60
-OUTPUT  = Path(__file__).parent / "prices.json"
-JST     = timezone(timedelta(hours=9))
+APP_ID    = os.environ.get("RAKUTEN_APP_ID", "")
+HOTEL_NO  = "183753"  # HOTEL R9 The Yard いなべ (travel.rakuten.co.jp/HOTEL/183753/)
+DAYS      = 60
+OUTPUT    = Path(__file__).parent / "prices.json"
+JST       = timezone(timedelta(hours=9))
 
-KEYWORD_URL = "https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426"
 VACANCY_URL = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
-
-
-def find_hotel_no() -> str:
-    resp = requests.get(KEYWORD_URL, params={
-        "applicationId": APP_ID,
-        "keyword": "HOTEL R9 The Yard いなべ",
-        "format": "json",
-        "hits": "10",
-    }, timeout=15)
-    resp.raise_for_status()
-    data = resp.json()
-
-    hotels = data.get("hotels", [])
-    if not hotels:
-        raise RuntimeError("ホテルが見つかりません。キーワードを確認してください。")
-
-    info = hotels[0]["hotel"][0]["hotelBasicInfo"]
-    hotel_no = str(info["hotelNo"])
-    print(f"ホテル発見: {info['hotelName']} (No. {hotel_no})")
-    return hotel_no
 
 
 def get_day_price(hotel_no: str, check_in: str, check_out: str) -> dict:
@@ -101,8 +81,9 @@ def main() -> None:
         sys.exit(1)
 
     print(f"=== 開始 {datetime.now(JST).strftime('%Y-%m-%d %H:%M:%S')} JST ===")
+    print(f"ホテルNo: {HOTEL_NO} (HOTEL R9 The Yard いなべ)")
 
-    hotel_no = find_hotel_no()
+    hotel_no = HOTEL_NO
 
     prices: dict = {}
     if OUTPUT.exists():
