@@ -1,12 +1,7 @@
 {
   "hotelName": "HOTEL R9 The Yard いなべ",
-  "lastUpdated": "2026-08-23T09:32:43.974014+00:00",
+  "lastUpdated": "2026-08-23T15:27:39.896128+00:00",
   "prices": {
-    "2026-08-23": {
-      "price": null,
-      "cheapestUrl": "https://hotel.travel.rakuten.co.jp/hotelinfo/plan/?f_no=183753&f_hizuke=20260823&f_camp_id=5397574&f_otona_su=1&f_syu=double&f_heya_su=1",
-      "cheapestSource": "楽天トラベル"
-    },
     "2026-08-24": {
       "price": null,
       "cheapestUrl": "https://hotel.travel.rakuten.co.jp/hotelinfo/plan/?f_no=183753&f_hizuke=20260824&f_camp_id=5397574&f_otona_su=1&f_syu=double&f_heya_su=1",
@@ -300,6 +295,11 @@
     "2026-10-21": {
       "price": null,
       "cheapestUrl": "https://hotel.travel.rakuten.co.jp/hotelinfo/plan/?f_no=183753&f_hizuke=20261021&f_camp_id=5397574&f_otona_su=1&f_syu=double&f_heya_su=1",
+      "cheapestSource": "楽天トラベル"
+    },
+    "2026-10-22": {
+      "price": null,
+      "cheapestUrl": "https://hotel.travel.rakuten.co.jp/hotelinfo/plan/?f_no=183753&f_hizuke=20261022&f_camp_id=5397574&f_otona_su=1&f_syu=double&f_heya_su=1",
       "cheapestSource": "楽天トラベル"
     }
   }
