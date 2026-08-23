@@ -20,10 +20,7 @@ JST       = timezone(timedelta(hours=9))
 VACANCY_URL = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
 
 
-_debug_done = False
-
 def get_day_price(hotel_no: str, check_in: str, check_out: str) -> dict:
-    global _debug_done
     result = {"price": None, "cheapestUrl": None, "cheapestSource": "楽天トラベル"}
 
     try:
@@ -36,12 +33,8 @@ def get_day_price(hotel_no: str, check_in: str, check_out: str) -> dict:
             "format": "json",
         }, timeout=15)
 
-        if not _debug_done:
-            print(f"  [DEBUG] status={resp.status_code}")
-            print(f"  [DEBUG] response={resp.text[:500]}")
-            _debug_done = True
-
         if resp.status_code != 200:
+            print(f"  API error {resp.status_code}: {resp.text[:200]}")
             return result
 
         data = resp.json()
