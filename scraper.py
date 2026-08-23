@@ -1,119 +1,155 @@
 #!/usr/bin/env python3
 """
-楽天トラベルAPI → HOTEL R9 The Yard いなべ price scraper
+楽天トラベル 空室カレンダースクレイパー
+HOTEL R9 The Yard いなべ (ホテルNo.183753)
+APIキー不要 — カレンダーページを直接取得
 """
 
 import json
-import os
-import sys
+import re
 import time
-import requests
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-APP_ID    = os.environ.get("RAKUTEN_APP_ID", "")
-HOTEL_NO  = "183753"  # HOTEL R9 The Yard いなべ (travel.rakuten.co.jp/HOTEL/183753/)
+import requests
+
+HOTEL_NO  = "183753"
+CAMP_ID   = "5397574"  # スタンダードプラン（1泊〜）
+ROOM_TYPE = "double"
 DAYS      = 60
 OUTPUT    = Path(__file__).parent / "prices.json"
 JST       = timezone(timedelta(hours=9))
 
-VACANCY_URL = "https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426"
+CALENDAR_URL = "https://hotel.travel.rakuten.co.jp/hotelinfo/plan/"
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "ja-JP,ja;q=0.9",
+    "Referer": "https://travel.rakuten.co.jp/",
+}
 
 
-def get_day_price(hotel_no: str, check_in: str, check_out: str) -> dict:
-    result = {"price": None, "cheapestUrl": None, "cheapestSource": "楽天トラベル"}
+def booking_url(date_str: str) -> str:
+    d = date_str.replace("-", "")  # YYYYMMDD
+    return (
+        f"https://hotel.travel.rakuten.co.jp/hotelinfo/plan/"
+        f"?f_no={HOTEL_NO}&f_hizuke={d}"
+        f"&f_camp_id={CAMP_ID}&f_otona_su=1&f_syu={ROOM_TYPE}&f_heya_su=1"
+    )
 
-    try:
-        resp = requests.get(VACANCY_URL, params={
-            "applicationId": APP_ID,
-            "hotelNo": hotel_no,
-            "checkinDate": check_in,
-            "checkoutDate": check_out,
-            "adultNum": "1",
-            "format": "json",
-        }, timeout=15)
 
-        if resp.status_code != 200:
-            print(f"  API error {resp.status_code}: {resp.text[:200]}")
-            return result
+def fetch_month(year: int, month: int) -> dict:
+    """指定月のカレンダーページから日付別最低価格を取得"""
+    resp = requests.get(
+        CALENDAR_URL,
+        params={
+            "f_no":      HOTEL_NO,
+            "f_flg":     "PLAN",
+            "f_heya_su": "1",
+            "f_camp_id": CAMP_ID,
+            "f_syu":     ROOM_TYPE,
+            "f_hizuke":  f"{year}{month:02d}01",
+            "f_otona_su": "1",
+            "f_thick":   "1",
+            "TB_iframe": "true",
+        },
+        headers=HEADERS,
+        timeout=15,
+    )
 
-        data = resp.json()
-        hotels = data.get("hotels", [])
-        if not hotels:
-            return result
+    if resp.status_code != 200:
+        print(f"  HTTP {resp.status_code}")
+        return {}
 
-        hotel_data = hotels[0]["hotel"]
-        basic_info = hotel_data[0]["hotelBasicInfo"]
-        result["cheapestUrl"] = (
-            basic_info.get("planListUrl") or basic_info.get("hotelSpecialUrl")
-        )
+    return parse_prices(resp.text, year, month)
 
-        min_price = None
-        for section in hotel_data:
-            for room in section.get("roomInfo", []):
-                rb = room.get("roomBasicInfo", {})
-                price = rb.get("roomPrice")
-                if price and (min_price is None or price < min_price):
-                    min_price = price
-                    url = rb.get("reserveUrl")
-                    if url:
-                        result["cheapestUrl"] = url
 
-        result["price"] = min_price
+def parse_prices(html: str, year: int, month: int) -> dict:
+    """HTMLのカレンダーセルから {YYYY-MM-DD: price} を抽出"""
+    prices = {}
 
-    except Exception as e:
-        print(f"  エラー: {e}")
+    for td_html in re.findall(r"<td[^>]*>(.*?)</td>", html, re.DOTALL):
+        # 当月の日付セル (class="thisMonth") だけを対象にする
+        day_m = re.search(r'class="thisMonth"[^>]*>(\d{1,2})<', td_html)
+        if not day_m:
+            continue
+        day = int(day_m.group(1))
 
-    return result
+        # 価格を探す（カンマ区切りの数字、1,000〜99,999の範囲）
+        # HTMLタグを除いたテキストから抽出
+        text = re.sub(r"<[^>]+>", " ", td_html)
+        price_m = re.search(r"\b(\d{1,2},\d{3})\b", text)
+        if not price_m:
+            continue
+
+        price = int(price_m.group(1).replace(",", ""))
+        if 1_000 <= price <= 99_999:
+            key = f"{year}-{month:02d}-{day:02d}"
+            # より安い価格を優先
+            if key not in prices or price < prices[key]:
+                prices[key] = price
+
+    return prices
 
 
 def save(prices: dict) -> None:
-    data = {
-        "hotelName":   "HOTEL R9 The Yard いなべ",
-        "lastUpdated": datetime.now(timezone.utc).isoformat(),
-        "prices":      prices,
-    }
-    OUTPUT.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    OUTPUT.write_text(
+        json.dumps(
+            {
+                "hotelName":   "HOTEL R9 The Yard いなべ",
+                "lastUpdated": datetime.now(timezone.utc).isoformat(),
+                "prices":      prices,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
 
 
 def main() -> None:
-    if not APP_ID:
-        print("ERROR: 環境変数 RAKUTEN_APP_ID が設定されていません", file=sys.stderr)
-        sys.exit(1)
-
     print(f"=== 開始 {datetime.now(JST).strftime('%Y-%m-%d %H:%M:%S')} JST ===")
-    print(f"ホテルNo: {HOTEL_NO} (HOTEL R9 The Yard いなべ)")
-
-    hotel_no = HOTEL_NO
-
-    prices: dict = {}
-    if OUTPUT.exists():
-        try:
-            existing = json.loads(OUTPUT.read_text(encoding="utf-8"))
-            prices = existing.get("prices", {})
-        except Exception:
-            pass
+    print(f"楽天トラベル 空室カレンダー直接スクレイピング (ホテルNo.{HOTEL_NO})")
 
     today = datetime.now(JST).replace(hour=0, minute=0, second=0, microsecond=0)
 
+    # 今日から60日をカバーする月を列挙
+    months = sorted({
+        (today.year + (today.month - 1 + i) // 12,
+         (today.month - 1 + i) % 12 + 1)
+        for i in range(3)
+    })
+
+    # 全月のカレンダーを取得
+    all_prices: dict[str, int] = {}
+    for year, month in months:
+        print(f"\n{year}年{month}月 取得中 …", end=" ", flush=True)
+        mp = fetch_month(year, month)
+        print(f"{len(mp)}日分")
+        all_prices.update(mp)
+        time.sleep(1.0)
+
+    # 今日以降60日分をまとめる
+    prices_out: dict = {}
     for i in range(DAYS):
-        date      = today + timedelta(days=i)
-        check_in  = date.strftime("%Y-%m-%d")
-        check_out = (date + timedelta(days=1)).strftime("%Y-%m-%d")
+        date    = today + timedelta(days=i)
+        ds      = date.strftime("%Y-%m-%d")
+        price   = all_prices.get(ds)
+        print(f"  {ds}: {'¥{:,}'.format(price) if price else '空室なし'}")
+        prices_out[ds] = {
+            "price":         price,
+            "cheapestUrl":   booking_url(ds),
+            "cheapestSource": "楽天トラベル",
+        }
 
-        print(f"[{i+1:02d}/{DAYS}] {check_in} …", end=" ", flush=True)
+    save(prices_out)
 
-        data = get_day_price(hotel_no, check_in, check_out)
-        prices[check_in] = data
-
-        print(f"¥{data['price']:,}" if data["price"] else "空室なし")
-        save(prices)
-
-        if i < DAYS - 1:
-            time.sleep(0.3)
-
-    valid = {d: v for d, v in prices.items() if v.get("price")}
-    print(f"\n完了: {len(prices)}日分 / 価格取得 {len(valid)}日")
+    valid = {d: v for d, v in prices_out.items() if v["price"]}
+    print(f"\n完了: {len(valid)}/{DAYS}日分 価格取得")
     if valid:
         cheapest = min(valid, key=lambda k: valid[k]["price"])
         print(f"最安値: ¥{valid[cheapest]['price']:,} ({cheapest})")
