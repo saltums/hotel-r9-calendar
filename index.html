@@ -225,7 +225,7 @@
 
 <header>
   <div class="hdr-top">
-    <div class="eyebrow">Trivago 最安値カレンダー</div>
+    <div class="eyebrow">楽天トラベル 最安値カレンダー</div>
     <h1>HOTEL R9 The Yard いなべ</h1>
   </div>
   <div class="stats-strip">
@@ -378,7 +378,7 @@ function renderCal(prices){
       // クリック先: cheapestUrl があればそこへ、なければ Trivago
       const dest = (!past&&url) ? url : trivagoUrl(dateS);
       const onClick = !past
-        ? ` onclick="window.open('${dest}','_blank')" title="${fmtJP(dateS)} → ${source||'Trivago'}で予約"`
+        ? ` onclick="window.open('${dest}','_blank')" title="${fmtJP(dateS)} → ${source||'楽天トラベル'}で予約"`
         : '';
 
       const priceHtml = price!=null
