@@ -32,12 +32,24 @@ def trivago_url(date_str: str) -> str:
     )
 
 
+_debug_done = False
+
 def fetch_price(page, date_str: str):
+    global _debug_done
     url = trivago_url(date_str)
     try:
-        page.goto(url, wait_until="domcontentloaded", timeout=25000)
-        # 価格が表示されるまで最大20秒待機
-        page.wait_for_selector('[data-testid="recommended-price"]', timeout=20000)
+        page.goto(url, wait_until="load", timeout=40000)
+
+        # 初回のみデバッグ: ページタイトルと本文冒頭を出力
+        if not _debug_done:
+            _debug_done = True
+            title = page.title()
+            body  = page.inner_text("body")[:400].replace("\n", " ")
+            print(f"\n  [debug] title: {title}")
+            print(f"  [debug] body:  {body}\n")
+
+        # 価格が表示されるまで最大35秒待機
+        page.wait_for_selector('[data-testid="recommended-price"]', timeout=35000)
         text = page.locator('[data-testid="recommended-price"]').first.text_content() or ""
         m = re.search(r"[¥￥]([0-9,]+)", text)
         if m:
