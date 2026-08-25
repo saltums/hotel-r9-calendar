@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HOTEL R9 いなべ 予約カレンダー</title>
+  <title>HOTEL R9 いなべ 料金カレンダー</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
   <style>
-    /* ─── Tokens ─────────────────────────────────────────────── */
     :root {
-      --bg:        #F0F4FA;
+      --bg:        #EEF2F8;
       --surface:   #FFFFFF;
       --surface-2: #F6F8FC;
       --hdr:       #0D1E38;
@@ -19,152 +18,126 @@
       --text-3:    #94A3B8;
       --border:    #DDE3EE;
       --today:     #F59E0B;
+      --sun:       #DC2626;
+      --sat:       #2563EB;
       --shadow-sm: 0 1px 3px rgba(13,27,46,.07),0 1px 2px rgba(13,27,46,.04);
 
-      /* Weekday = calm blue (relatively cheap) */
-      --wd-bg:   #EFF6FF;
-      --wd-txt:  #1E3A5F;
-      --wd-num:  #3B82F6;
-      --wd-hov:  #DBEAFE;
+      --cheap-bg:  #1D4ED8;
+      --cheap-hov: #1E40AF;
+      --cheap-txt: #FFFFFF;
+      --cheap-num: rgba(255,255,255,.68);
+      --cheap-src: rgba(255,255,255,.55);
 
-      /* Weekend / holiday = amber (check price) */
-      --we-bg:   #FFFBEB;
-      --we-txt:  #78350F;
-      --we-num:  #D97706;
-      --we-hov:  #FEF3C7;
+      --exp-bg:    #F1F5F9;
+      --exp-txt:   #94A3B8;
+      --exp-num:   #CBD5E0;
 
-      /* Sunday / holiday accent */
-      --sun-num: #DC2626;
-      --sat-num: #2563EB;
+      --none-bg:   #FFFFFF;
+      --none-num:  #94A3B8;
+      --none-txt:  #CBD5E0;
     }
-
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
-        --bg:       #0A1525;
-        --surface:  #111C2E;
-        --surface-2:#0D1729;
-        --hdr:      #070E1C;
-        --hdr-2:    #091020;
-        --text:     #D6E3F8;
-        --text-2:   #7E94B4;
-        --text-3:   #3D5069;
-        --border:   #1A2840;
+        --bg:#0A1525; --surface:#111C2E; --surface-2:#0D1729;
+        --hdr:#070E1C; --hdr-2:#091020;
+        --text:#D6E3F8; --text-2:#7E94B4; --text-3:#3D5069;
+        --border:#1A2840; --sun:#F87171; --sat:#60A5FA;
         --shadow-sm:0 1px 3px rgba(0,0,0,.35);
-        --wd-bg:    #0D1829;
-        --wd-txt:   #93C5FD;
-        --wd-num:   #60A5FA;
-        --wd-hov:   #1A2E4A;
-        --we-bg:    #1C1505;
-        --we-txt:   #FCD34D;
-        --we-num:   #F59E0B;
-        --we-hov:   #2C1F08;
-        --sun-num:  #F87171;
-        --sat-num:  #60A5FA;
+        --cheap-bg:#2563EB; --cheap-hov:#1D4ED8;
+        --cheap-txt:#FFF; --cheap-num:rgba(255,255,255,.6); --cheap-src:rgba(255,255,255,.45);
+        --exp-bg:#0D1520; --exp-txt:#2D3E56; --exp-num:#1E2D40;
+        --none-bg:#111C2E; --none-num:#2D3E56; --none-txt:#1E2D40;
       }
     }
     :root[data-theme="dark"] {
       --bg:#0A1525; --surface:#111C2E; --surface-2:#0D1729;
       --hdr:#070E1C; --hdr-2:#091020;
       --text:#D6E3F8; --text-2:#7E94B4; --text-3:#3D5069;
-      --border:#1A2840; --shadow-sm:0 1px 3px rgba(0,0,0,.35);
-      --wd-bg:#0D1829; --wd-txt:#93C5FD; --wd-num:#60A5FA; --wd-hov:#1A2E4A;
-      --we-bg:#1C1505; --we-txt:#FCD34D; --we-num:#F59E0B; --we-hov:#2C1F08;
-      --sun-num:#F87171; --sat-num:#60A5FA;
+      --border:#1A2840; --sun:#F87171; --sat:#60A5FA;
+      --shadow-sm:0 1px 3px rgba(0,0,0,.35);
+      --cheap-bg:#2563EB; --cheap-hov:#1D4ED8;
+      --cheap-txt:#FFF; --cheap-num:rgba(255,255,255,.6); --cheap-src:rgba(255,255,255,.45);
+      --exp-bg:#0D1520; --exp-txt:#2D3E56; --exp-num:#1E2D40;
+      --none-bg:#111C2E; --none-num:#2D3E56; --none-txt:#1E2D40;
     }
 
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;
-      background:var(--bg);color:var(--text);min-height:100vh;
-    }
+    body{font-family:'Noto Sans JP',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-    /* ─── Header ─────────────────────────────────────────────── */
     header{background:var(--hdr);color:#fff}
-    .hdr-top{max-width:960px;margin:0 auto;padding:22px 20px 18px}
-    .eyebrow{
-      font-size:.6rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
-      color:rgba(255,255,255,.38);margin-bottom:6px
-    }
-    h1{font-size:1.22rem;font-weight:700;color:rgba(255,255,255,.95);margin-bottom:4px}
-    .sub{font-size:.75rem;color:rgba(255,255,255,.45)}
+    .hdr-top{max-width:960px;margin:0 auto;padding:22px 20px 16px}
+    .eyebrow{font-size:.62rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:6px}
+    h1{font-size:1.2rem;font-weight:700;color:rgba(255,255,255,.95)}
 
-    /* ─── Main ───────────────────────────────────────────────── */
+    .stats-strip{background:var(--hdr-2);border-top:1px solid rgba(255,255,255,.06)}
+    .stats-inner{max-width:960px;margin:0 auto;padding:11px 20px 15px;display:flex;gap:0;align-items:stretch;flex-wrap:wrap}
+    .stat{display:flex;flex-direction:column;gap:3px;padding-right:22px;margin-right:22px;border-right:1px solid rgba(255,255,255,.08)}
+    .stat:last-of-type{border-right:none;margin-right:0;padding-right:0}
+    .stat-label{font-size:.6rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35)}
+    .stat-val{font-size:.98rem;font-weight:700;color:rgba(255,255,255,.9);font-variant-numeric:tabular-nums}
+    .stat-val.accent{color:#60A5FA}
+    .upd{margin-left:auto;font-size:.65rem;color:rgba(255,255,255,.25);align-self:flex-end;padding-bottom:1px}
+
     main{max-width:960px;margin:0 auto;padding:18px 16px 60px}
 
-    /* Legend */
-    .legend{
-      display:flex;align-items:center;gap:14px;
-      margin-bottom:14px;padding:0 2px;flex-wrap:wrap
-    }
+    .legend{display:flex;align-items:center;gap:16px;margin-bottom:14px;padding:0 2px;flex-wrap:wrap}
     .leg{display:flex;align-items:center;gap:7px;font-size:.72rem;color:var(--text-2)}
     .swatch{width:28px;height:16px;border-radius:4px;flex-shrink:0}
-    .swatch.wd{background:var(--wd-bg);border:1px solid var(--border)}
-    .swatch.we{background:var(--we-bg);border:1px solid var(--border)}
-    .leg-note{margin-left:auto;font-size:.65rem;color:var(--text-3);text-align:right}
+    .swatch.c{background:var(--cheap-bg)}
+    .swatch.e{background:var(--exp-bg);border:1px solid var(--border)}
+    .swatch.n{background:var(--none-bg);border:1px dashed var(--border)}
+    .leg-note{margin-left:auto;font-size:.66rem;color:var(--text-3)}
 
-    /* Month card */
-    .month-card{
-      background:var(--surface);border-radius:14px;
-      box-shadow:var(--shadow-sm);margin-bottom:14px;overflow:hidden
-    }
-    .month-label{
-      padding:12px 18px 10px;font-size:.82rem;font-weight:700;
-      color:var(--text);border-bottom:1px solid var(--border);letter-spacing:.3px
-    }
+    .notice{background:#FEF3C7;color:#92400E;border-radius:10px;padding:12px 16px;font-size:.8rem;margin-bottom:14px;line-height:1.6;display:none}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .notice{background:#1C1A05;color:#D97706}}
+    :root[data-theme="dark"] .notice{background:#1C1A05;color:#D97706}
 
-    /* Grid */
+    .month-card{background:var(--surface);border-radius:14px;box-shadow:var(--shadow-sm);margin-bottom:14px;overflow:hidden}
+    .month-label{padding:12px 18px 10px;font-size:.82rem;font-weight:700;color:var(--text);border-bottom:1px solid var(--border);letter-spacing:.3px}
+
     .cal{display:grid;grid-template-columns:repeat(7,1fr)}
-    .dow{
-      text-align:center;padding:7px 2px;font-size:.58rem;font-weight:700;
-      letter-spacing:1px;text-transform:uppercase;color:var(--text-3);
-      border-bottom:1px solid var(--border)
-    }
-    .dow.s{color:var(--sun-num)} .dow.t{color:var(--sat-num)}
+    .dow{text-align:center;padding:7px 2px;font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-3);border-bottom:1px solid var(--border)}
+    .dow.s{color:var(--sun)} .dow.t{color:var(--sat)}
 
-    /* Date cell */
-    .dc{
-      min-height:62px;padding:8px 8px 5px;
-      border-right:1px solid var(--border);border-bottom:1px solid var(--border);
-      position:relative;overflow:hidden;transition:filter .1s;
-      text-decoration:none;display:block;
-    }
+    .dc{min-height:70px;padding:8px 8px 5px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:filter .12s;position:relative;overflow:hidden;text-decoration:none;display:block;cursor:pointer}
     .dc:nth-child(7n){border-right:none}
-    .dc.empty{background:var(--surface-2);pointer-events:none}
-    .dc.past{opacity:.25;pointer-events:none}
+    .dc.empty{background:var(--surface-2);pointer-events:none;cursor:default}
+    .dc.past{opacity:.28;pointer-events:none;cursor:default}
     .dc.is-today{box-shadow:inset 0 0 0 2px var(--today)}
 
-    .dc.wd{background:var(--wd-bg)}
-    .dc.wd:hover{background:var(--wd-hov)}
-    .dc.we{background:var(--we-bg)}
-    .dc.we:hover{background:var(--we-hov)}
+    .dc.cheap{background:var(--cheap-bg)}
+    .dc.cheap:hover{background:var(--cheap-hov)}
+    .dc.exp{background:var(--exp-bg)}
+    .dc.exp:hover{filter:brightness(.96)}
+    .dc.none{background:var(--none-bg)}
+    .dc.none:hover{filter:brightness(.97)}
 
-    .dc-num{
-      display:block;font-size:.72rem;font-weight:600;margin-bottom:5px
-    }
-    .dc.wd .dc-num{color:var(--wd-num)}
-    .dc.we .dc-num{color:var(--we-num)}
-    .dc.is-sun .dc-num{color:var(--sun-num)}
-    .dc.is-sat .dc-num{color:var(--sat-num)}
+    .dc-num{display:block;font-size:.7rem;font-weight:500;margin-bottom:4px}
+    .dc.cheap .dc-num{color:var(--cheap-num)}
+    .dc.exp   .dc-num{color:var(--exp-num)}
+    .dc.none  .dc-num{color:var(--none-num)}
+    .dc.none.is-sun .dc-num{color:var(--sun);opacity:.7}
+    .dc.none.is-sat .dc-num{color:var(--sat);opacity:.7}
 
-    .dc-label{
-      display:block;font-size:.62rem;font-weight:500;line-height:1.3;
-      color:var(--text-2);
-    }
-    .dc.we .dc-label{color:var(--we-txt);opacity:.85}
-    .dc.wd .dc-label{color:var(--wd-txt);opacity:.75}
+    .dc-price{display:block;font-size:.9rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2;margin-bottom:3px}
+    .dc.cheap .dc-price{color:var(--cheap-txt)}
+    .dc.exp   .dc-price{color:var(--exp-txt)}
+    .dc.none  .dc-price{color:var(--none-txt);font-size:.7rem;font-weight:400}
 
-    .dc-hol{
-      display:block;font-size:.58rem;font-weight:500;
-      color:var(--sun-num);opacity:.85;margin-top:2px;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%
-    }
+    .dc-src{display:block;font-size:.58rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+    .dc.cheap .dc-src{color:var(--cheap-src)}
+    .dc.exp   .dc-src{color:rgba(148,163,184,.6)}
+
+    .loader{text-align:center;padding:56px 16px;color:var(--text-2)}
+    .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:#2563EB;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 14px}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
     @media(max-width:500px){
-      .dc{min-height:50px;padding:6px 5px 4px}
-      .dc-num{font-size:.66rem;margin-bottom:3px}
-      .dc-label{font-size:.56rem}
-      .dc-hol{display:none}
+      .dc{min-height:54px;padding:6px 5px 4px}
+      .dc-num{font-size:.65rem} .dc-price{font-size:.78rem}
       h1{font-size:1rem}
+      .stat{padding-right:14px;margin-right:14px}
+      .stat-val{font-size:.88rem}
       .leg-note{display:none}
     }
   </style>
@@ -173,144 +146,160 @@
 
 <header>
   <div class="hdr-top">
-    <div class="eyebrow">Agoda 予約カレンダー</div>
+    <div class="eyebrow">Trivago 最安値カレンダー</div>
     <h1>HOTEL R9 The Yard いなべ</h1>
-    <div class="sub">日付をクリックするとAgodaの予約ページが開きます</div>
+  </div>
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat">
+        <span class="stat-label">直近の最安値</span>
+        <span class="stat-val accent" id="sCheapest">読込中…</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">今後の平均</span>
+        <span class="stat-val" id="sAvg">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">格安日数</span>
+        <span class="stat-val" id="sCount">—</span>
+      </div>
+      <span class="upd" id="sUpd">—</span>
+    </div>
   </div>
 </header>
 
 <main>
   <div class="legend">
-    <div class="leg"><span class="swatch wd"></span>平日（比較的安め）</div>
-    <div class="leg"><span class="swatch we"></span>土日・祝（要確認）</div>
-    <span class="leg-note">クリック → Agodaでリアルタイム価格確認・予約</span>
+    <div class="leg"><span class="swatch c"></span>格安 ¥6,500以下</div>
+    <div class="leg"><span class="swatch e"></span>¥6,500超</div>
+    <div class="leg"><span class="swatch n"></span>データなし</div>
+    <span class="leg-note">クリック → Trivagoで全サイト比較・予約</span>
   </div>
-  <div id="cal"></div>
+  <div id="notice" class="notice"></div>
+  <div id="cal">
+    <div class="loader"><div class="spinner"></div>料金データを読み込み中…</div>
+  </div>
 </main>
 
 <script>
-/* ── Config ─────────────────────────────────────────────── */
-const AGODA_BASE = 'https://www.agoda.com/ja-jp/hotel-r9-the-yard-inabe-h31033908/hotel/yokkaichi-jp.html';
-const MONTHS     = 3;
-const DOWS       = ['日','月','火','水','木','金','土'];
-
-/* ── 日本の祝日 2026-2027 ─────────────────────────────── */
-const HOLIDAYS = {
-  '2026-01-01': '元日',
-  '2026-01-12': '成人の日',
-  '2026-02-11': '建国記念の日',
-  '2026-02-23': '天皇誕生日',
-  '2026-03-20': '春分の日',
-  '2026-04-29': '昭和の日',
-  '2026-05-03': '憲法記念日',
-  '2026-05-04': 'みどりの日',
-  '2026-05-05': 'こどもの日',
-  '2026-07-20': '海の日',
-  '2026-08-11': '山の日',
-  '2026-09-21': '敬老の日',
-  '2026-09-22': '振替休日',
-  '2026-09-23': '秋分の日',
-  '2026-10-12': 'スポーツの日',
-  '2026-11-03': '文化の日',
-  '2026-11-23': '勤労感謝の日',
-  '2026-12-23': '天皇誕生日振替',
-  '2027-01-01': '元日',
-  '2027-01-11': '成人の日',
-  '2027-02-11': '建国記念の日',
-  '2027-02-23': '天皇誕生日',
-  '2027-03-21': '春分の日',
-  '2027-04-29': '昭和の日',
-  '2027-05-03': '憲法記念日',
-  '2027-05-04': 'みどりの日',
-  '2027-05-05': 'こどもの日',
-};
-
-/* ── Helpers ──────────────────────────────────────────── */
+const CHEAP_MAX = 6500;
+const MONTHS    = 3;
+const DOWS      = ['日','月','火','水','木','金','土'];
 const pad = n => String(n).padStart(2,'0');
-const ds = (y,m,d) => `${y}-${pad(m+1)}-${pad(d)}`;
+const ds  = (y,m,d) => `${y}-${pad(m+1)}-${pad(d)}`;
 
 function todayStr(){
-  const t = new Date();
-  return ds(t.getFullYear(), t.getMonth(), t.getDate());
+  const t=new Date();
+  return ds(t.getFullYear(),t.getMonth(),t.getDate());
 }
 
-function agodaUrl(dateStr){
-  const d  = new Date(dateStr + 'T00:00:00');
-  const nx = new Date(d);
-  nx.setDate(nx.getDate() + 1);
-  const fmt = x => `${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`;
-  return `${AGODA_BASE}?checkIn=${fmt(d)}&checkOut=${fmt(nx)}&adults=1`;
+function fmtJP(str){
+  const[y,m,d]=str.split('-');
+  const w=DOWS[new Date(str+'T00:00:00').getDay()];
+  return `${parseInt(m)}月${parseInt(d)}日（${w}）`;
 }
 
-/* ── Calendar ─────────────────────────────────────────── */
-function renderCal(){
-  const today = todayStr();
-  const now   = new Date();
-  const parts = [];
+function parseEntry(raw){
+  if(raw==null) return {price:null,url:null,source:null};
+  if(typeof raw==='number') return {price:raw,url:null,source:null};
+  return {price:raw.price??null, url:raw.cheapestUrl??null, source:raw.cheapestSource??null};
+}
 
-  for(let mo = 0; mo < MONTHS; mo++){
-    const year  = now.getFullYear() + Math.floor((now.getMonth() + mo) / 12);
-    const month = (now.getMonth() + mo) % 12;
-    const first = new Date(year, month, 1);
-    const last  = new Date(year, month + 1, 0).getDate();
-    const fdow  = first.getDay();
+function updateStats(prices, lastUpdated){
+  const today=todayStr();
+  const fp=Object.entries(prices)
+    .map(([d,v])=>({d,...parseEntry(v)}))
+    .filter(x=>x.d>=today&&x.price>0)
+    .sort((a,b)=>a.d.localeCompare(b.d));
+  if(fp.length>0){
+    const min=fp.reduce((a,b)=>a.price<b.price?a:b);
+    const avg=Math.round(fp.reduce((s,x)=>s+x.price,0)/fp.length);
+    const cheap=fp.filter(x=>x.price<=CHEAP_MAX).length;
+    document.getElementById('sCheapest').textContent=`¥${min.price.toLocaleString()} (${fmtJP(min.d)})`;
+    document.getElementById('sAvg').textContent=`¥${avg.toLocaleString()}`;
+    document.getElementById('sCount').textContent=`${cheap}日`;
+  } else {
+    document.getElementById('sCheapest').textContent='データなし';
+  }
+  if(lastUpdated){
+    const diff=Math.floor((Date.now()-new Date(lastUpdated))/60000);
+    const s=diff<60?`${diff}分前`:diff<1440?`${Math.floor(diff/60)}時間前`:`${Math.floor(diff/1440)}日前`;
+    document.getElementById('sUpd').textContent=`更新 ${s}`;
+  }
+}
 
-    parts.push(
-      `<div class="month-card">`,
-      `<div class="month-label">${year}年 ${month+1}月</div>`,
-      `<div class="cal">`
-    );
+function renderCal(prices){
+  const today=todayStr();
+  const now=new Date();
+  const parts=[];
 
-    DOWS.forEach((dw, i) => {
-      const cls = i === 0 ? ' s' : i === 6 ? ' t' : '';
-      parts.push(`<div class="dow${cls}">${dw}</div>`);
-    });
+  for(let mo=0;mo<MONTHS;mo++){
+    const year =now.getFullYear()+Math.floor((now.getMonth()+mo)/12);
+    const month=(now.getMonth()+mo)%12;
+    const first=new Date(year,month,1);
+    const last =new Date(year,month+1,0).getDate();
+    const fdow =first.getDay();
 
-    for(let i = 0; i < fdow; i++)
-      parts.push(`<div class="dc empty"></div>`);
+    parts.push(`<div class="month-card">`,`<div class="month-label">${year}年 ${month+1}月</div>`,`<div class="cal">`);
+    DOWS.forEach((dw,i)=>parts.push(`<div class="dow${i===0?' s':i===6?' t':''}">${dw}</div>`));
+    for(let i=0;i<fdow;i++) parts.push(`<div class="dc empty"></div>`);
 
-    for(let d = 1; d <= last; d++){
-      const dateS  = ds(year, month, d);
-      const dow    = (fdow + d - 1) % 7;
-      const isSun  = dow === 0;
-      const isSat  = dow === 6;
-      const hol    = HOLIDAYS[dateS];
-      const isWe   = isSun || isSat || !!hol;
-      const past   = dateS < today;
-      const isToday= dateS === today;
+    for(let d=1;d<=last;d++){
+      const dateS=ds(year,month,d);
+      const dow=(fdow+d-1)%7;
+      const past=dateS<today;
+      const isToday=dateS===today;
+      const raw=prices[dateS];
+      const {price,url,source}=parseEntry(raw);
 
-      const typeCls  = isWe ? 'we' : 'wd';
-      const sunCls   = isSun ? ' is-sun' : '';
-      const satCls   = isSat ? ' is-sat' : '';
-      const todayCls = isToday ? ' is-today' : '';
-      const pastCls  = past ? ' past' : '';
+      const state=price==null?'none':price<=CHEAP_MAX?'cheap':'exp';
+      const sunCls=(!past&&state==='none'&&dow===0)?' is-sun':'';
+      const satCls=(!past&&state==='none'&&dow===6)?' is-sat':'';
 
-      const href  = !past ? agodaUrl(dateS) : '#';
-      const label = isWe ? (hol || (isSun ? '日曜' : '土曜')) : 'Agodaで確認';
+      const href=url||'#';
+      const onClick=!past?` href="${href}" target="_blank" rel="noopener"`:' ';
+
+      const priceHtml=price!=null
+        ?`<span class="dc-price">¥${price.toLocaleString()}</span>`
+        :`<span class="dc-price">—</span>`;
+      const srcHtml=source&&!past?`<span class="dc-src">${source}</span>`:'';
 
       parts.push(
-        `<a class="dc ${typeCls}${sunCls}${satCls}${todayCls}${pastCls}" `,
-        past ? '' : `href="${href}" target="_blank" rel="noopener" title="${dateS} Agodaで予約"`,
-        `>`,
+        `<a class="dc ${state}${sunCls}${satCls}${isToday?' is-today':''}${past?' past':''}"${onClick}>`,
         `<span class="dc-num">${d}</span>`,
-        `<span class="dc-label">${label}</span>`,
-        hol ? `<span class="dc-hol">${hol}</span>` : '',
+        priceHtml, srcHtml,
         `</a>`
       );
     }
 
-    const total = fdow + last;
-    const trail = (7 - total % 7) % 7;
-    for(let i = 0; i < trail; i++)
-      parts.push(`<div class="dc empty"></div>`);
-
+    const trail=(7-(fdow+last)%7)%7;
+    for(let i=0;i<trail;i++) parts.push(`<div class="dc empty"></div>`);
     parts.push('</div></div>');
   }
-
-  document.getElementById('cal').innerHTML = parts.join('');
+  document.getElementById('cal').innerHTML=parts.join('');
 }
 
-renderCal();
+async function init(){
+  let data={prices:{},lastUpdated:null};
+  let hasData=false;
+  try{
+    const res=await fetch('./prices.json?_='+Date.now());
+    if(!res.ok) throw new Error(res.status);
+    data=await res.json();
+    hasData=Object.values(data.prices||{}).some(v=>parseEntry(v).price!=null);
+  }catch(e){}
+
+  updateStats(data.prices||{},data.lastUpdated);
+  renderCal(data.prices||{});
+
+  if(!hasData){
+    const n=document.getElementById('notice');
+    n.style.display='block';
+    n.textContent='⚠ 料金データが未取得です。GitHubリポジトリの「Actions」タブから [Update Hotel Prices] を手動実行してください。';
+  }
+  setTimeout(()=>location.reload(),30*60*1000);
+}
+init();
 </script>
 </body>
 </html>
