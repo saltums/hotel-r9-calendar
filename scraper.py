@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
-Trivago Playwright スクレイパー
+Trivago Playwright スクレイパー (ローカル実行版)
 HOTEL R9 The Yard いなべ (hotel ID: 27992002)
+Microsoft Edge を使用 — 住宅用IPから実行
 """
 
 import json
+import os
 import re
 import time
 from datetime import datetime, timedelta, timezone
@@ -18,37 +20,26 @@ HOTEL_SLUG = (
     "-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84"
     "-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82"
 )
-DAYS   = 60
+DAYS   = int(os.environ.get("SCRAPER_DAYS", "60"))
 OUTPUT = Path(__file__).parent / "prices.json"
 JST    = timezone(timedelta(hours=9))
 
+EDGE_PATH = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+
 
 def trivago_url(date_str: str) -> str:
-    d   = date_str.replace("-", "")
-    d1  = (datetime.strptime(date_str, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y%m%d")
+    d  = date_str.replace("-", "")
+    d1 = (datetime.strptime(date_str, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y%m%d")
     return (
         f"https://www.trivago.jp/ja/lm/{HOTEL_SLUG}"
         f"?search=100-{HOTEL_ID};dr-{d}-{d1};drs-40;rc-1-1"
     )
 
 
-_debug_done = False
-
 def fetch_price(page, date_str: str):
-    global _debug_done
     url = trivago_url(date_str)
     try:
         page.goto(url, wait_until="load", timeout=40000)
-
-        # 初回のみデバッグ: ページタイトルと本文冒頭を出力
-        if not _debug_done:
-            _debug_done = True
-            title = page.title()
-            body  = page.inner_text("body")[:400].replace("\n", " ")
-            print(f"\n  [debug] title: {title}")
-            print(f"  [debug] body:  {body}\n")
-
-        # 価格が表示されるまで最大35秒待機
         page.wait_for_selector('[data-testid="recommended-price"]', timeout=35000)
         text = page.locator('[data-testid="recommended-price"]').first.text_content() or ""
         m = re.search(r"[¥￥]([0-9,]+)", text)
@@ -69,13 +60,9 @@ def main():
 
     with sync_playwright() as pw:
         browser = pw.chromium.launch(
+            executable_path=EDGE_PATH,
             headless=True,
-            args=[
-                "--disable-blink-features=AutomationControlled",
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-            ],
+            args=["--disable-blink-features=AutomationControlled"],
         )
         ctx = browser.new_context(
             user_agent=(
@@ -85,11 +72,8 @@ def main():
             ),
             locale="ja-JP",
             viewport={"width": 1280, "height": 800},
-            extra_http_headers={
-                "Accept-Language": "ja-JP,ja;q=0.9",
-            },
+            extra_http_headers={"Accept-Language": "ja-JP,ja;q=0.9"},
         )
-        # navigator.webdriver を隠す
         ctx.add_init_script(
             "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
         )
@@ -99,8 +83,8 @@ def main():
         ok = 0
 
         for i in range(DAYS):
-            date    = today + timedelta(days=i)
-            ds      = date.strftime("%Y-%m-%d")
+            date = today + timedelta(days=i)
+            ds   = date.strftime("%Y-%m-%d")
             print(f"  {ds} ...", end=" ", flush=True)
 
             price, url = fetch_price(page, ds)
@@ -111,8 +95,8 @@ def main():
                 print("空室なし / データなし")
 
             prices_out[ds] = {
-                "price":         price,
-                "cheapestUrl":   url,
+                "price":          price,
+                "cheapestUrl":    url,
                 "cheapestSource": "Trivago",
             }
             if i < DAYS - 1:
