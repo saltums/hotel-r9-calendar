@@ -299,8 +299,8 @@ async function init(){
     hasData=Object.values(data.prices||{}).some(v=>parseEntry(v).price!=null);
   }catch(e){}
 
-  updateStats(data.prices||{},data.lastUpdated);
-  renderCal(data.prices||{});
+  try{ updateStats(data.prices||{},data.lastUpdated); }catch(e){ console.error('updateStats',e); }
+  try{ renderCal(data.prices||{}); }catch(e){ console.error('renderCal',e); }
 
   if(!hasData){
     const n=document.getElementById('notice');
