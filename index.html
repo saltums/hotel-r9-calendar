@@ -162,6 +162,7 @@
         <span class="stat-val" id="sCount">—</span>
       </div>
       <span class="upd" id="sUpd">—</span>
+      <span class="upd" id="sNext" style="margin-left:10px">—</span>
     </div>
   </div>
 </header>
@@ -235,6 +236,12 @@ function updateStats(prices, lastUpdated){
     const rel=diff<60?`${diff}分前`:diff<1440?`${Math.floor(diff/60)}時間前`:`${Math.floor(diff/1440)}日前`;
     document.getElementById('sUpd').textContent=`最終更新 ${mo}/${dy} ${hh}:${mm} (${rel})`;
   }
+  // 次の更新 = 毎時00分なので、次の :00 を計算
+  const now2=new Date(); const jstNow=new Date(now2.getTime()+9*60*60*1000);
+  const nextJst=new Date(jstNow); nextJst.setUTCMinutes(0,0,0); nextJst.setUTCHours(nextJst.getUTCHours()+1);
+  const nm=String(nextJst.getUTCMonth()+1), nd=String(nextJst.getUTCDate());
+  const nh=String(nextJst.getUTCHours()).padStart(2,'0');
+  document.getElementById('sNext').textContent=`次の更新 ${nm}/${nd} ${nh}:00`;
 }
 
 function renderCal(prices){
