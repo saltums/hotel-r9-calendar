@@ -76,7 +76,7 @@
     .stat-label{font-size:.6rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35)}
     .stat-val{font-size:.98rem;font-weight:700;color:rgba(255,255,255,.9);font-variant-numeric:tabular-nums}
     .stat-val.accent{color:#60A5FA}
-    .upd{margin-left:auto;font-size:.65rem;color:rgba(255,255,255,.25);align-self:flex-end;padding-bottom:1px}
+    .upd{margin-left:auto;font-size:.65rem;color:rgba(255,255,255,.40);align-self:flex-end;padding-bottom:1px}
 
     main{max-width:960px;margin:0 auto;padding:18px 16px 60px}
 
@@ -226,9 +226,14 @@ function updateStats(prices, lastUpdated){
     document.getElementById('sCheapest').textContent='データなし';
   }
   if(lastUpdated){
-    const diff=Math.floor((Date.now()-new Date(lastUpdated))/60000);
-    const s=diff<60?`${diff}分前`:diff<1440?`${Math.floor(diff/60)}時間前`:`${Math.floor(diff/1440)}日前`;
-    document.getElementById('sUpd').textContent=`更新 ${s}`;
+    const d=new Date(lastUpdated);
+    // UTC → JST (+9h)
+    const jst=new Date(d.getTime()+9*60*60*1000);
+    const mo=jst.getUTCMonth()+1, dy=jst.getUTCDate();
+    const hh=String(jst.getUTCHours()).padStart(2,'0'), mm=String(jst.getUTCMinutes()).padStart(2,'0');
+    const diff=Math.floor((Date.now()-d)/60000);
+    const rel=diff<60?`${diff}分前`:diff<1440?`${Math.floor(diff/60)}時間前`:`${Math.floor(diff/1440)}日前`;
+    document.getElementById('sUpd').textContent=`最終更新 ${mo}/${dy} ${hh}:${mm} (${rel})`;
   }
 }
 
