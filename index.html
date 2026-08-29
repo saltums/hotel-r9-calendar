@@ -126,6 +126,12 @@
     .dc.cheap .dc-src{color:var(--cheap-src)}
     .dc.exp   .dc-src{color:rgba(148,163,184,.6)}
 
+    .dc-prev{display:block;font-size:.56rem;font-variant-numeric:tabular-nums;margin-top:2px;opacity:.7}
+    .dc.cheap .dc-prev{color:var(--cheap-num)}
+    .dc.exp   .dc-prev{color:var(--exp-txt)}
+    .dc-prev .up{color:#F87171}
+    .dc-prev .dn{color:#34D399}
+
     .loader{text-align:center;padding:56px 16px;color:var(--text-2)}
     .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:#2563EB;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 14px}
     @keyframes spin{to{transform:rotate(360deg)}}
@@ -244,7 +250,8 @@ function updateStats(prices, lastUpdated){
   document.getElementById('sNext').textContent=`次の更新 ${nm}/${nd} ${nh}:00`;
 }
 
-function renderCal(prices){
+function renderCal(prices, prevPrices){
+  prevPrices=prevPrices||{};
   const today=todayStr();
   const now=new Date();
   const parts=[];
@@ -284,11 +291,18 @@ function renderCal(prices){
         ?`<span class="dc-price">¥${price.toLocaleString()}</span>`
         :`<span class="dc-price">—</span>`;
       const srcHtml=source&&!past?`<span class="dc-src">${source}</span>`:'';
+      const prev=parseEntry(prevPrices[dateS]);
+      let prevHtml='';
+      if(!past&&price!=null&&prev.price!=null&&prev.price!==price){
+        const diff=price-prev.price;
+        const cls=diff>0?'up':'dn', arrow=diff>0?'↑':'↓';
+        prevHtml=`<span class="dc-prev"><span class="${cls}">${arrow}¥${Math.abs(diff).toLocaleString()}</span> 前¥${prev.price.toLocaleString()}</span>`;
+      }
 
       parts.push(
         `<a class="dc ${state}${isToday?' is-today':''}${past?' past':''}"${onClick}>`,
         `<span class="dc-num">${d}</span>`,
-        priceHtml, srcHtml,
+        priceHtml, srcHtml, prevHtml,
         `</a>`
       );
       cellCount++;
@@ -303,16 +317,20 @@ function renderCal(prices){
 
 async function init(){
   let data={prices:{},lastUpdated:null};
+  let prevPrices={};
   let hasData=false;
+  const ts='?_='+Date.now();
   try{
-    const res=await fetch('./prices.json?_='+Date.now());
-    if(!res.ok) throw new Error(res.status);
-    data=await res.json();
-    hasData=Object.values(data.prices||{}).some(v=>parseEntry(v).price!=null);
+    const [r1,r2]=await Promise.allSettled([
+      fetch('./prices.json'+ts).then(r=>r.ok?r.json():Promise.reject()),
+      fetch('./prices_prev.json'+ts).then(r=>r.ok?r.json():Promise.reject()),
+    ]);
+    if(r1.status==='fulfilled'){ data=r1.value; hasData=Object.values(data.prices||{}).some(v=>parseEntry(v).price!=null); }
+    if(r2.status==='fulfilled'){ prevPrices=r2.value.prices||{}; }
   }catch(e){}
 
   try{ updateStats(data.prices||{},data.lastUpdated); }catch(e){ console.error('updateStats',e); }
-  try{ renderCal(data.prices||{}); }catch(e){ console.error('renderCal',e); }
+  try{ renderCal(data.prices||{},prevPrices); }catch(e){ console.error('renderCal',e); }
 
   if(!hasData){
     const n=document.getElementById('notice');
