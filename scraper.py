@@ -40,7 +40,12 @@ def fetch_price(page, date_str: str):
     url = trivago_url(date_str)
     try:
         page.goto(url, wait_until="load", timeout=40000)
-        page.wait_for_selector('[data-testid="recommended-price"]', timeout=35000)
+        # 空室なし判定を先にチェック
+        page.wait_for_selector('[data-testid="recommended-price"], [data-testid="no-availability-message"], .no-availability', timeout=35000)
+        body = page.content()
+        if "選択した日付では利用できません" in body or "not available" in body.lower():
+            print(f"  空室なし: {date_str}")
+            return None, url
         text = page.locator('[data-testid="recommended-price"]').first.text_content() or ""
         m = re.search(r"[¥￥]([0-9,]+)", text)
         if m:
