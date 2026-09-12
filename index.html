@@ -132,6 +132,10 @@
     .dc-prev .up{color:#F87171}
     .dc-prev .dn{color:#34D399}
 
+    .dc-reserved{display:inline-block;font-size:.5rem;font-weight:700;background:rgba(251,146,60,.92);color:#fff;padding:1px 5px;border-radius:3px;margin-top:4px;letter-spacing:.3px}
+    .dc.reserved{box-shadow:inset 0 0 0 2px rgba(251,146,60,.7)}
+    .dc.reserved.past{opacity:.55}
+
     .loader{text-align:center;padding:56px 16px;color:var(--text-2)}
     .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:#2563EB;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 14px}
     @keyframes spin{to{transform:rotate(360deg)}}
@@ -250,8 +254,9 @@ function updateStats(prices, lastUpdated){
   document.getElementById('sNext').textContent=`次の更新 ${nm}/${nd} ${nh}:00`;
 }
 
-function renderCal(prices, prevPrices){
+function renderCal(prices, prevPrices, reservedDates){
   prevPrices=prevPrices||{};
+  reservedDates=reservedDates||new Set();
   const today=todayStr();
   const now=new Date();
   const parts=[];
@@ -286,6 +291,7 @@ function renderCal(prices, prevPrices){
       const state=price==null?'none':price<=CHEAP_MAX?'cheap':'exp';
       const href=url||'#';
       const onClick=!past?` href="${href}" target="_blank" rel="noopener"`:' ';
+      const isReserved=reservedDates.has(dateS);
 
       const priceHtml=price!=null
         ?`<span class="dc-price">¥${price.toLocaleString()}</span>`
@@ -298,11 +304,12 @@ function renderCal(prices, prevPrices){
         const cls=diff>0?'up':'dn', arrow=diff>0?'↑':'↓';
         prevHtml=`<span class="dc-prev"><span class="${cls}">${arrow}¥${Math.abs(diff).toLocaleString()}</span> 前¥${prev.price.toLocaleString()}</span>`;
       }
+      const reservedHtml=isReserved?`<span class="dc-reserved">予約済</span>`:'';
 
       parts.push(
-        `<a class="dc ${state}${isToday?' is-today':''}${past?' past':''}"${onClick}>`,
+        `<a class="dc ${state}${isReserved?' reserved':''}${isToday?' is-today':''}${past?' past':''}"${onClick}>`,
         `<span class="dc-num">${d}</span>`,
-        priceHtml, srcHtml, prevHtml,
+        priceHtml, srcHtml, prevHtml, reservedHtml,
         `</a>`
       );
       cellCount++;
@@ -329,8 +336,16 @@ async function init(){
     if(r2.status==='fulfilled'){ prevPrices=r2.value.prices||{}; }
   }catch(e){}
 
+  let reservedDates=new Set();
+  try{
+    const r3=await fetch('./reservations.json'+ts).then(r=>r.ok?r.json():null);
+    if(r3&&r3.reservations){
+      r3.reservations.forEach(({checkin})=>{ if(checkin) reservedDates.add(checkin); });
+    }
+  }catch(e){}
+
   try{ updateStats(data.prices||{},data.lastUpdated); }catch(e){ console.error('updateStats',e); }
-  try{ renderCal(data.prices||{},prevPrices); }catch(e){ console.error('renderCal',e); }
+  try{ renderCal(data.prices||{},prevPrices,reservedDates); }catch(e){ console.error('renderCal',e); }
 
   if(!hasData){
     const n=document.getElementById('notice');

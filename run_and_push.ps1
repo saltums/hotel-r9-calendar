@@ -25,7 +25,7 @@ Write-Host "scraper start..."
 $diff = & $GIT diff --stat prices.json 2>&1
 if ($diff -match "prices.json") {
     Write-Host "pushing to GitHub..."
-    & $GIT add prices.json prices_prev.json
+    & $GIT add prices.json prices_prev.json reservations.json index.html
     & $GIT commit -m "chore: update prices $(Get-Date -Format 'yyyy-MM-dd HH:mm') JST"
     & $GIT push
     Add-Content $LOG "  -> push done"
@@ -34,3 +34,4 @@ if ($diff -match "prices.json") {
     Write-Host "no changes"
     Add-Content $LOG "  -> no changes"
 }
+
