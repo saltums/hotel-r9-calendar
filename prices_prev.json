@@ -1,6 +1,6 @@
 {
   "hotelName": "HOTEL R9 The Yard いなべ",
-  "lastUpdated": "2026-10-12T00:39:55.638295+00:00",
+  "lastUpdated": "2026-10-12T00:51:30.013718+00:00",
   "prices": {
     "2026-10-12": {
       "price": 6432,
@@ -18,7 +18,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-10-15": {
-      "price": 8344,
+      "price": 7695,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261015-20261016;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -63,7 +63,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-10-24": {
-      "price": 19244,
+      "price": 16950,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261024-20261025;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -203,7 +203,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-11-21": {
-      "price": 24000,
+      "price": 24055,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261121-20261122;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
