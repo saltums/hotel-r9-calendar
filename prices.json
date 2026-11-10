@@ -1,6 +1,6 @@
 {
   "hotelName": "HOTEL R9 The Yard いなべ",
-  "lastUpdated": "2026-11-10T07:24:20.309324+00:00",
+  "lastUpdated": "2026-11-10T07:34:08.758485+00:00",
   "prices": {
     "2026-11-10": {
       "price": 6930,
@@ -48,7 +48,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-11-19": {
-      "price": 7623,
+      "price": 6930,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261119-20261120;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -103,17 +103,17 @@
       "cheapestSource": "Trivago"
     },
     "2026-11-30": {
-      "price": 9072,
+      "price": 6930,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261130-20261201;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
     "2026-12-01": {
-      "price": 9072,
+      "price": 7212,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261201-20261202;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
     "2026-12-02": {
-      "price": 9979,
+      "price": 7868,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261202-20261203;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -123,7 +123,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-12-04": {
-      "price": 11000,
+      "price": 8617,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261204-20261205;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -138,7 +138,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-12-07": {
-      "price": 9979,
+      "price": 7868,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261207-20261208;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -163,7 +163,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-12-12": {
-      "price": 17273,
+      "price": 14785,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261212-20261213;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -173,12 +173,12 @@
       "cheapestSource": "Trivago"
     },
     "2026-12-14": {
-      "price": 9009,
+      "price": 6930,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261214-20261215;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
     "2026-12-15": {
-      "price": 9459,
+      "price": 7623,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261215-20261216;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -193,7 +193,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-12-18": {
-      "price": 11793,
+      "price": 9900,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261218-20261219;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -213,7 +213,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-12-22": {
-      "price": 9900,
+      "price": 9000,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261222-20261223;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -233,12 +233,12 @@
       "cheapestSource": "Trivago"
     },
     "2026-12-26": {
-      "price": 20727,
+      "price": 18315,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261226-20261227;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
     "2026-12-27": {
-      "price": 20653,
+      "price": 20865,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261227-20261228;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -268,7 +268,7 @@
       "cheapestSource": "Trivago"
     },
     "2027-01-02": {
-      "price": 10364,
+      "price": 10525,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20270102-20270103;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -283,12 +283,12 @@
       "cheapestSource": "Trivago"
     },
     "2027-01-05": {
-      "price": 12701,
+      "price": 10890,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20270105-20270106;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
     "2027-01-06": {
-      "price": 9500,
+      "price": 9613,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20270106-20270107;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
