@@ -1,6 +1,6 @@
 {
   "hotelName": "HOTEL R9 The Yard いなべ",
-  "lastUpdated": "2026-11-11T04:46:42.592102+00:00",
+  "lastUpdated": "2026-11-11T05:06:23.340004+00:00",
   "prices": {
     "2026-11-11": {
       "price": 9000,
@@ -8,7 +8,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-11-12": {
-      "price": 9161,
+      "price": 9174,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261112-20261113;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -18,7 +18,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-11-14": {
-      "price": 15574,
+      "price": 17000,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261114-20261115;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -178,7 +178,7 @@
       "cheapestSource": "Trivago"
     },
     "2026-12-16": {
-      "price": 7695,
+      "price": 7705,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20261216-20261217;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -273,7 +273,7 @@
       "cheapestSource": "Trivago"
     },
     "2027-01-04": {
-      "price": 6930,
+      "price": 7178,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20270104-20270105;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
@@ -293,7 +293,7 @@
       "cheapestSource": "Trivago"
     },
     "2027-01-08": {
-      "price": 6600,
+      "price": 6300,
       "cheapestUrl": "https://www.trivago.jp/ja/lm/%E3%83%9B%E3%83%86%E3%83%AB-%EF%BD%88%EF%BD%8F%EF%BD%94%EF%BD%85%EF%BD%8C-%EF%BD%92-%EF%BD%94%EF%BD%88%EF%BD%85-%EF%BD%99%EF%BD%81%EF%BD%92%EF%BD%84-%E3%81%84%E3%81%AA%E3%81%B9-%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82?search=100-27992002;dr-20270108-20270109;drs-40;rc-1-1",
       "cheapestSource": "Trivago"
     },
